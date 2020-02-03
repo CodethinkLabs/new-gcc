@@ -4929,11 +4929,13 @@ simplify_min_max (gfc_expr *expr, int sign)
   gfc_actual_arglist *arg, *last, *extremum;
   gfc_expr *tmp, *ret;
   const char *fname;
+  int kind;  
 
   last = NULL;
   extremum = NULL;
 
   arg = expr->value.function.actual;
+  kind = arg->expr->ts.kind;
 
   for (; arg; last = arg, arg = arg->next)
     {
@@ -4945,6 +4947,9 @@ simplify_min_max (gfc_expr *expr, int sign)
 	  extremum = arg;
 	  continue;
 	}
+
+      if (arg->expr->ts.kind > kind)
+	kind = arg->expr->ts.kind;
 
       min_max_choose (arg->expr, extremum->expr, sign);
 
@@ -4976,6 +4981,10 @@ simplify_min_max (gfc_expr *expr, int sign)
 	   && (strcmp (fname, "amin0") == 0 || strcmp (fname, "amax0") == 0))
     {
       ret = gfc_convert_constant (tmp, BT_REAL, gfc_real_4_kind);
+    }
+  else if (tmp->ts.kind != kind)
+    {
+      ret = gfc_convert_constant (tmp, tmp->ts.type, kind);
     }
   else
     ret = gfc_copy_expr (tmp);
