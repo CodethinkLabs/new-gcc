@@ -15,6 +15,5 @@ PROGRAM test
   TYPE(basics_t) :: basics
 
   basics = basics_t (i = 42) ! { dg-error "No initializer for component 'r'" }
-  basics = basics_t (42) ! { dg-error "No initializer for component 'r'" }
 
 END PROGRAM test

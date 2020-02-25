@@ -2999,8 +2999,11 @@ build_actual_constructor (gfc_structure_ctor_component **comp_head,
 	    }
 	  else if (!comp->attr.artificial)
 	    {
-	      gfc_error ("No initializer for component %qs given in the"
-			 " structure constructor at %C", comp->name);
+	      int ecnt;
+	      gfc_get_errors (NULL, &ecnt);
+	      if (ecnt == 0)
+		gfc_error ("No initializer for component %qs given in the"
+			   " structure constructor at %C", comp->name);
 	      return false;
 	    }
 	}
@@ -3117,6 +3120,7 @@ gfc_convert_to_structure_constructor (gfc_expr *e, gfc_symbol *sym, gfc_expr **c
       if (this_comp->ts.type == BT_CHARACTER && !this_comp->attr.allocatable
 	  && this_comp->ts.u.cl && this_comp->ts.u.cl->length
 	  && this_comp->ts.u.cl->length->expr_type == EXPR_CONSTANT
+	  && actual->expr
 	  && actual->expr->ts.type == BT_CHARACTER
 	  && actual->expr->expr_type == EXPR_CONSTANT)
 	{
@@ -3181,34 +3185,35 @@ gfc_convert_to_structure_constructor (gfc_expr *e, gfc_symbol *sym, gfc_expr **c
 	  goto cleanup;
 	}
 
-          /* If not explicitly a parent constructor, gather up the components
-             and build one.  */
-          if (comp && comp == sym->components
-                && sym->attr.extension
-		&& comp_tail->val
-                && (!gfc_bt_struct (comp_tail->val->ts.type)
-                      ||
-                    comp_tail->val->ts.u.derived != this_comp->ts.u.derived))
-            {
-              bool m;
-	      gfc_actual_arglist *arg_null = NULL;
+      /* If not explicitly a parent constructor, gather up the components
+	 and build one.  */
+      if (comp && comp == sym->components
+	  && sym->attr.extension
+	  && comp_tail->val
+	  && (!gfc_bt_struct (comp_tail->val->ts.type)
+	      || comp_tail->val->ts.u.derived != this_comp->ts.u.derived))
+	{
+	  bool m;
+	  gfc_actual_arglist *arg_null = NULL;
 
-	      actual->expr = comp_tail->val;
-	      comp_tail->val = NULL;
+	  actual->expr = comp_tail->val;
+	  comp_tail->val = NULL;
 
-              m = gfc_convert_to_structure_constructor (NULL,
-					comp->ts.u.derived, &comp_tail->val,
-					comp->ts.u.derived->attr.zero_comp
-					  ? &arg_null : &actual, true);
-              if (!m)
-                goto cleanup;
+#define shorter gfc_convert_to_structure_constructor
+	  m = shorter (NULL, comp->ts.u.derived, &comp_tail->val,
+		       comp->ts.u.derived->attr.zero_comp
+		       ? &arg_null : &actual, true);
+#undef shorter
 
-	      if (comp->ts.u.derived->attr.zero_comp)
-		{
-		  comp = comp->next;
-		  continue;
-		}
-            }
+	  if (!m)
+	    goto cleanup;
+
+	  if (comp->ts.u.derived->attr.zero_comp)
+	    {
+	      comp = comp->next;
+	      continue;
+	    }
+        }
 
       if (comp)
 	comp = comp->next;
@@ -3259,7 +3264,8 @@ gfc_convert_to_structure_constructor (gfc_expr *e, gfc_symbol *sym, gfc_expr **c
     *arglist = actual;
   return true;
 
-  cleanup:
+cleanup:
+
   gfc_current_locus = old_locus;
 
   for (comp_iter = comp_head; comp_iter; )
