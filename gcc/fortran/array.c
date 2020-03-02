@@ -2102,6 +2102,9 @@ gfc_resolve_character_array_constructor (gfc_expr *expr)
 {
   gfc_constructor *p;
   HOST_WIDE_INT found_length;
+#if 0  /* WmT */
+;fprintf(stderr, "*** ENTER %s() ***\n", __func__);
+#endif
 
   gcc_assert (expr->expr_type == EXPR_ARRAY);
   gcc_assert (expr->ts.type == BT_CHARACTER);
@@ -2232,6 +2235,10 @@ got_charlen:
 	    }
     }
 
+#if 1  /* WmT */
+//;fprintf(stderr, "*** EXIT %s() - end -> true ***\n", __func__);
+;fprintf(stderr, "[WmT] Reached %s() exit OK (final `return true`)...\n", __func__);
+#endif
   return true;
 }
 
