@@ -1785,6 +1785,9 @@ gfc_set_constant_character_len (gfc_charlen_t len, gfc_expr *expr,
   gfc_char_t *s;
   gfc_charlen_t slen;
 
+#if 0	/* WmT */
+;fprintf(stderr, "*** ENTER %s ***\n", __func__);
+#endif
   if (expr->ts.type != BT_CHARACTER)
     return;
 
@@ -1837,6 +1840,9 @@ gfc_set_constant_character_len (gfc_charlen_t len, gfc_expr *expr,
 	  expr->representation.string = NULL;
 	}
     }
+#if 0	/* WmT */
+;fprintf(stderr, "*** EXIT %s ***\n", __func__);
+#endif
 }
 
 
