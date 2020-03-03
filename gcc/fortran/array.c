@@ -832,6 +832,9 @@ gfc_set_array_spec (gfc_symbol *sym, gfc_array_spec *as, locus *error_loc)
 {
   int i;
   symbol_attribute *attr;
+#if 0  /* WmT */
+;fprintf(stderr, "*** ENTER %s() ***\n", __func__);
+#endif
   
   if (as == NULL)
     return true;
@@ -911,12 +914,18 @@ gfc_set_array_spec (gfc_symbol *sym, gfc_array_spec *as, locus *error_loc)
     }
 
   free (as);
+#if 0  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - end -> true (OK) ***\n", __func__);
+#endif
   return true;
 
 too_many:
 
   gfc_error ("rank + corank of %qs exceeds %d at %C", sym->name,
 	     GFC_MAX_DIMENSIONS);
+#if 0  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - end -> false (error) ***\n", __func__);
+#endif
   return false;
 }
 
@@ -928,6 +937,9 @@ gfc_copy_array_spec (gfc_array_spec *src)
 {
   gfc_array_spec *dest;
   int i;
+#if 0  /* WmT */
+;fprintf(stderr, "*** ENTER %s() ***\n", __func__);
+#endif
 
   if (src == NULL)
     return NULL;
@@ -942,6 +954,9 @@ gfc_copy_array_spec (gfc_array_spec *src)
       dest->upper[i] = gfc_copy_expr (dest->upper[i]);
     }
 
+#if 0  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - done ***\n", __func__);
+#endif
   return dest;
 }
 
