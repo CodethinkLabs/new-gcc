@@ -7011,6 +7011,10 @@ gfc_resolve_expr (gfc_expr *e)
   bool t;
   bool inquiry_save, actual_arg_save, first_actual_arg_save;
 
+#if 0  /* WmT */
+;fprintf(stderr, "*** ENTER %s() (immediate bail: %s) ***\n", __func__, (e == NULL || e->do_not_resolve_again)?"y":"n");
+#endif
+
   if (e == NULL || e->do_not_resolve_again)
     return true;
 
@@ -7096,6 +7100,10 @@ gfc_resolve_expr (gfc_expr *e)
         {
 	  /* For efficiency, we call gfc_expand_constructor for BT_CHARACTER
 	     here rather then add a duplicate test for it above.  */
+#if 1  /* WmT */
+//;gfc_warning_now(0, "[WmT] reached L='%L'", &e->where);
+;fprintf(stderr, "[WmT] %s() - HERE: expand/resolve for expr=%p\n", __func__, (void *)e);
+#endif
 	  gfc_expand_constructor (e, false);
 	  t = gfc_resolve_character_array_constructor (e);
 	}
@@ -7103,6 +7111,9 @@ gfc_resolve_expr (gfc_expr *e)
       break;
 
     case EXPR_STRUCTURE:
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] EXPR_STRUCTURE case -> gfc_resolve_ref() for e=%p... [%s:%d]\n", (void *)e, __FILE__, __LINE__);
+#endif
       t = gfc_resolve_ref (e);
       if (!t)
 	break;
@@ -7131,7 +7142,17 @@ gfc_resolve_expr (gfc_expr *e)
       && e->symtree->n.sym->attr.select_rank_temporary
       && UNLIMITED_POLY (e->symtree->n.sym))
     e->do_not_resolve_again = 1;
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] INFO: typespec mangling warning here; do_not_resolve_again (for expr at %p) set? %s\n", __FILE__, __LINE__, (void *)e, e->do_not_resolve_again?"y":"n");
+{
+	if (e->do_not_resolve_again)
+		gfc_warning_now(0, "[WmT] EXPR_VARIABLE marked do_not_resolve_again L='%L'", &e->where);
+}
+#endif
 
+#if 0  /* WmT */
+;fprintf(stderr, "*** EXIT %s() ***\n", __func__);
+#endif
   return t;
 }
 
