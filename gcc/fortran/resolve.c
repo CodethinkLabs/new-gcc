@@ -6995,7 +6995,6 @@ gfc_resolve_expr (gfc_expr *e)
 
     case EXPR_FUNCTION:
     case EXPR_VARIABLE:
-
       if (check_host_association (e))
 	t = resolve_function (e);
       else

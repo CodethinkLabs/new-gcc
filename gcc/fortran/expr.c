@@ -3425,7 +3425,7 @@ check_restricted (gfc_expr *e)
       break;
 
     default:
-      gfc_internal_error ("check_restricted(): Unknown expression type");
+      gfc_internal_error ("check_restricted(): Unknown expression type %d", e->expr_type);
     }
 
   return t;
@@ -3445,8 +3445,11 @@ gfc_specification_expr (gfc_expr *e)
 
   if (e->ts.type != BT_INTEGER)
     {
-      gfc_error ("Expression at %L must be of INTEGER type, found %s",
-		 &e->where, gfc_basic_typename (e->ts.type));
+//      int ecnt;
+//      gfc_get_errors (NULL, &ecnt);
+//      if (ecnt == 0)
+	gfc_error ("Expression at %L must be of INTEGER type, found %s",
+		   &e->where, gfc_basic_typename (e->ts.type));
       return false;
     }
 

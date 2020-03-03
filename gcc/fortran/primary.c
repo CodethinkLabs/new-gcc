@@ -3039,6 +3039,8 @@ gfc_convert_to_structure_constructor (gfc_expr *e, gfc_symbol *sym, gfc_expr **c
   locus old_locus;
   gfc_expr *expr;
 
+//  e->ts.type = BT_DERIVED;
+//
   expr = parent ? *cexpr : e;
   old_locus = gfc_current_locus;
   if (parent)

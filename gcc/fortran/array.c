@@ -375,8 +375,10 @@ resolve_array_bound (gfc_expr *e, int check_constant)
   if (e == NULL)
     return true;
 
-  if (!gfc_resolve_expr (e)
-      || !gfc_specification_expr (e))
+  if (e->ts.type != BT_UNKNOWN && !gfc_specification_expr (e))
+    return false;
+
+  if (!gfc_resolve_expr (e) || !gfc_specification_expr (e))
     return false;
 
   if (check_constant && !gfc_is_constant_expr (e))
