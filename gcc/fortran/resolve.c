@@ -10878,6 +10878,9 @@ resolve_ordinary_assign (gfc_code *code, gfc_namespace *ns)
 		 && rhs->ts.u.cl->length->expr_type == EXPR_CONSTANT)
 	rlen = gfc_mpz_get_hwi (rhs->ts.u.cl->length->value.integer);
 
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] 'will be truncated' test: rlen %ld, llen %ld...\n", __FILE__, __LINE__, rlen, llen);
+#endif
       if (rlen && llen && rlen > llen)
 	gfc_warning_now (OPT_Wcharacter_truncation,
 			 "CHARACTER expression will be truncated "

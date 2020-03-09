@@ -10387,6 +10387,10 @@ gfc_match_derived_decl (void)
   bool parameterized_type = false;
   bool seen_colons = false;
 
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() ***\n", __func__);
+#endif
+
   if (gfc_comp_struct (gfc_current_state ()))
     return MATCH_NO;
 
@@ -10398,6 +10402,7 @@ gfc_match_derived_decl (void)
   do
     {
       is_type_attr_spec = gfc_get_type_attr_spec (&attr, parent);
+
       if (is_type_attr_spec == MATCH_ERROR)
 	return MATCH_ERROR;
       if (is_type_attr_spec == MATCH_YES)
@@ -10417,6 +10422,9 @@ gfc_match_derived_decl (void)
   if (m == MATCH_YES)
     {
       seen_colons = true;
+#if 1  /* WmT */
+	gfc_warning_now(0, "[WmT] flagging 'seen_colons' at %C");
+#endif
     }
   else if (seen_attr)
     {
@@ -10428,6 +10436,9 @@ gfc_match_derived_decl (void)
       But, we need to simply return for TYPE(.  */
   if (m == MATCH_NO && gfc_current_form == FORM_FREE)
     {
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] checks: handling FORM_FREE...\n");
+#endif
       char c = gfc_peek_ascii_char ();
       if (c == '(')
 	return m;
@@ -10578,6 +10589,9 @@ gfc_match_derived_decl (void)
       gfc_set_sym_referenced (extended);
 
       p->ts.type = BT_DERIVED;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] set p->ts.type BT_DERIVED...\n");
+#endif
       p->ts.u.derived = extended;
       p->initializer = gfc_default_initializer (&p->ts);
 

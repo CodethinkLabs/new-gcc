@@ -2126,6 +2126,9 @@ gfc_match_type_spec (gfc_typespec *ts)
   match m;
   locus old_locus;
   char c, name[GFC_MAX_SYMBOL_LEN + 1];
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() [statement at %p] ***\n", __func__, (void *)ts);
+#endif
 
   gfc_clear_ts (ts);
   gfc_gobble_whitespace ();
@@ -2147,6 +2150,9 @@ gfc_match_type_spec (gfc_typespec *ts)
 		     ts->u.derived->name, &old_locus);
 	  return MATCH_ERROR;
 	}
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() MATCH_YES - follows MATCH_YES from match_derived_type_spec() ***\n", __func__);
+#endif
       return MATCH_YES;
     }
 
@@ -2317,6 +2323,9 @@ kind_selector:
   if (m == MATCH_NO)
     m = MATCH_YES;
 
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - MATCH_YES %s ***\n", __func__, (m == MATCH_YES)?"y":"n");
+#endif
   return m;
 }
 
