@@ -10272,6 +10272,9 @@ gfc_match_type (gfc_statement *st)
   char name[GFC_MAX_SYMBOL_LEN + 1];
   match m;
   locus old_loc;
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() requires -fdec; will bail? %s\n", __FILE__, __LINE__, __func__, (!flag_dec)?"y":"n");
+#endif
 
   /* Requires -fdec.  */
   if (!flag_dec)
@@ -10465,6 +10468,9 @@ gfc_match_derived_decl (void)
     }
 
   m = gfc_match (" %n ", name);
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] get name: MATCH_YES %s, name '%s'\n", __FILE__, __LINE__, (m == MATCH_YES)?"y":"n", (m == MATCH_YES)?name:"N/A");
+#endif
   if (m != MATCH_YES)
     return m;
 
