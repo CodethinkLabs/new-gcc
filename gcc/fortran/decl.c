@@ -10666,6 +10666,9 @@ gfc_match_derived_decl (void)
 
   gfc_new_block = sym;
 
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - MATCH_YES ***\n", __func__);
+#endif
   return MATCH_YES;
 }
 
