@@ -7076,6 +7076,10 @@ gfc_resolve_expr (gfc_expr *e)
       if (!gfc_resolve_ref (e))
 	break;
 
+#if 1  /* WmT */
+//;fprintf(stderr, "[%s:%d] about to gfc_resolve_array_constructor()...\n", __FILE__, __LINE__);
+;gfc_warning_now(0, "[WmT] %s() - EXPR_ARRAY -> gfc_resolve_array_constructor() / L='%L'", __func__, &e->where);
+#endif
       t = gfc_resolve_array_constructor (e);
       /* Also try to expand a constructor.  */
       if (t)
