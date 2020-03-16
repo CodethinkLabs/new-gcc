@@ -10263,6 +10263,9 @@ gfc_match_type (gfc_statement *st)
     return MATCH_NO;
 
   m = gfc_match ("type");
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] -fdec -> tried gfc_match() 'type'; found: %s\n", __FILE__, __LINE__, (m == MATCH_YES)?"MATCH_YES":"not MATCH_YES");
+#endif
   if (m != MATCH_YES)
     return m;
   /* If we already have an error in the buffer, it is probably from failing to
@@ -10275,12 +10278,18 @@ gfc_match_type (gfc_statement *st)
 
   /* If we see an attribute list before anything else it's definitely a derived
    * type declaration.  */
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] check: attribute list -> derived type decl...\n", __FILE__, __LINE__);
+#endif
   if (gfc_match (" ,") == MATCH_YES || gfc_match (" ::") == MATCH_YES)
     goto derived;
 
   /* By now "TYPE" has already been matched. If we do not see a name, this may
    * be something like "TYPE *" or "TYPE <fmt>".  */
   m = gfc_match_name (name);
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] gfc_match_name() attempted; got MATCH_YES %s/name '%s'\n", __FILE__, __LINE__, (m == MATCH_YES)?"y":"n", (m == MATCH_YES)?name : "N/A");
+#endif
   if (m != MATCH_YES)
     {
       /* Let print match if it can, otherwise throw an error from
@@ -10295,6 +10304,9 @@ gfc_match_type (gfc_statement *st)
     }
 
   /* Check for EOS.  */
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] EOS check - possible 'TYPE <name> <EOS>' here? (name '%s')\n", __FILE__, __LINE__, name);
+#endif
   if (gfc_match_eos () == MATCH_YES)
     {
       /* By now we have "TYPE <name> <EOS>". Check first if the name is an
@@ -10306,11 +10318,17 @@ gfc_match_type (gfc_statement *st)
       if (gfc_is_intrinsic_typename (name) || m == MATCH_YES)
 	{
 	  *st = ST_DERIVED_DECL;
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] EXIT - have ST_DERIVED_DECL -> ret m=%s\n", __FILE__, __LINE__, (m == MATCH_YES)?"y":"n");
+#endif
 	  return m;
 	}
     }
   else
     {
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] 'TYPE <name>' here? (name='%s')\n", __FILE__, __LINE__, name);
+#endif
       /* Here we have "TYPE <name>". Check for <TYPE IS (> or a PDT declaration
 	 like <type name(parameter)>.  */
       gfc_gobble_whitespace ();
@@ -10327,16 +10345,25 @@ gfc_match_type (gfc_statement *st)
   /* Treat TYPE... like PRINT...  */
   gfc_current_locus = old_loc;
   *st = ST_WRITE;
+#if 0  /* WmT */
+;fprintf(stderr, "*** EXIT %s() via gfc_match_print() ***\n", __func__);
+#endif
   return gfc_match_print ();
 
 derived:
   gfc_current_locus = old_loc;
   *st = ST_DERIVED_DECL;
+#if 0  /* WmT */
+;fprintf(stderr, "*** EXIT %s() via gfc_match_derived_decl() ***\n", __func__);
+#endif
   return gfc_match_derived_decl ();
 
 typeis:
   gfc_current_locus = old_loc;
   *st = ST_TYPE_IS;
+#if 0  /* WmT */
+;fprintf(stderr, "*** EXIT %s() via gfc_match_typeis() ***\n", __func__);
+#endif
   return gfc_match_type_is ();
 }
 
