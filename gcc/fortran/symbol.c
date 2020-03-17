@@ -3952,6 +3952,10 @@ gfc_new_charlen (gfc_namespace *ns, gfc_charlen *old_cl)
 
   cl = gfc_get_charlen ();
 
+#if 0  /* WmT */
+;fprintf(stderr, "[WmT] %s(): init 'cl' using 'old_cl' copy? %s ('length' field at %p)\n", __func__, old_cl?"y":"n", old_cl?old_cl->length:NULL);
+#endif
+
   /* Copy old_cl.  */
   if (old_cl)
     {
