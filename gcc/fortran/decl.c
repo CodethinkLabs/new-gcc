@@ -10448,6 +10448,9 @@ gfc_match_derived_decl (void)
   /* Deal with derived type extensions.  The extension attribute has
      been added to 'attr' but now the parent type must be found and
      checked.  */
+#if 0  /* WmT */
+;fprintf(stderr, "[WmT] Suitable parent[0] %s -> might check_extended_derived_type()\n", parent[0]?"y":"n");
+#endif
   if (parent[0])
     extended = check_extended_derived_type (parent);
 
