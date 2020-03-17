@@ -4704,6 +4704,9 @@ gfc_apply_init (gfc_typespec *ts, symbol_attribute *attr, gfc_expr *init)
     {
       HOST_WIDE_INT len = gfc_mpz_get_hwi (ts->u.cl->length->value.integer);
 
+#if 1	/* WmT */
+;fprintf(stderr, "[WmT] %s(): BT_CHARACTER w/ ts->u.cl->length %ld (ts %p, init %p; do gfc_set_constant_character_len()? %s)...\n", __func__, len, (void *)ts, (void *)init, (init->expr_type == EXPR_CONSTANT)?"y":"n");
+#endif
       if (init->expr_type == EXPR_CONSTANT)
         gfc_set_constant_character_len (len, init, -1);
       else if (init
