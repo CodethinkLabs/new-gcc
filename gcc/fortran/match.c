@@ -1310,6 +1310,9 @@ gfc_match_program (void)
 {
   gfc_symbol *sym;
   match m;
+#if 0  /* WmT */
+;fprintf(stderr, "*** ENTER %s() ***\n", __func__);
+#endif
 
   m = gfc_match ("% %s%t", &sym);
 
