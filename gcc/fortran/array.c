@@ -402,6 +402,9 @@ gfc_resolve_array_spec (gfc_array_spec *as, int check_constant)
 {
   gfc_expr *e;
   int i;
+#if 0  /* WmT */
+;fprintf(stderr, "*** ENTER %s() ***\n", __func__);
+#endif
 
   if (as == NULL)
     return true;
@@ -440,6 +443,9 @@ gfc_resolve_array_spec (gfc_array_spec *as, int check_constant)
 
   as->resolved = true;
 
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() - as->resolved now true (previously unresolved; rank %d, corank %d)...\n", __func__, as->rank, as->corank);
+#endif
   return true;
 }
 
