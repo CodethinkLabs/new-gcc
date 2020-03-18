@@ -298,6 +298,9 @@ decode_statement (void)
   locus old_locus;
   match m = MATCH_NO;
   char c;
+#if 1  /* WmT */
+;gfc_warning_now(0, "[WmT] HERE: parsing (fn %s()) reached line C='%C'", __func__);
+#endif
 
   gfc_enforce_clean_symbol_state ();
 
