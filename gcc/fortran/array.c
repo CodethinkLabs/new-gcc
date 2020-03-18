@@ -1185,6 +1185,10 @@ walk_array_constructor (gfc_typespec *ts, gfc_constructor_base head)
   gfc_constructor *c;
   gfc_expr *e;
   match m;
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() - convert to type ***\n", __func__);
+#endif
+
 
   for (c = gfc_constructor_first (head); c; c = gfc_constructor_next (c))
     {
@@ -1200,6 +1204,9 @@ walk_array_constructor (gfc_typespec *ts, gfc_constructor_base head)
 	       && e->ts.type != BT_UNKNOWN)
 	return MATCH_ERROR;
     }
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - with MATCH_YES ***\n", __func__);
+#endif
   return MATCH_YES;
 }
 
@@ -1242,6 +1249,9 @@ gfc_match_array_constructor (gfc_expr **result)
   m = gfc_match_type_spec (&ts);
   if (m == MATCH_YES)
     {
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] got MATCH_YES for 'type-spec ::'\n", __FILE__, __LINE__);
+#endif
       seen_ts = (gfc_match (" ::") == MATCH_YES);
 
       if (seen_ts)
