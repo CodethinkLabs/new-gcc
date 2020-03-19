@@ -376,6 +376,9 @@ match_data_constant (gfc_expr **result)
   gfc_expr *expr;
   match m;
   locus old_loc;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] Reached %s() - testing includes 'structure constant'...\n", __FILE__, __LINE__, __func__);
+#endif
 
   m = gfc_match_literal_constant (&expr, 1);
   if (m == MATCH_YES)
@@ -553,6 +556,9 @@ match_old_style_init (const char *name)
   gfc_symtree *st;
   gfc_symbol *sym;
   gfc_data *newdata, *nd;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] Reached %s() - 'set up data structure to hold initializers\n", __FILE__, __LINE__, __func__);
+#endif
 
   /* Set up data structure to hold initializers.  */
   gfc_find_sym_tree (name, NULL, 0, &st);
@@ -787,6 +793,9 @@ match_clist_expr (gfc_expr **result, gfc_typespec *ts, gfc_array_spec *as)
   mpz_t repeat, cons_size, as_size;
   bool scalar;
   int cmp;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] Reached %s() - 'like gfc_match_init_expr() but matches a clist'...\n", __FILE__, __LINE__, __func__);
+#endif
 
   gcc_assert (ts);
 
