@@ -649,6 +649,10 @@ gfc_match_name (char *buffer)
   int i;
   char c;
 
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] reached %s() (checking for 'a name of some sort')...\n", __FILE__, __LINE__, __func__);
+#endif
+
   old_loc = gfc_current_locus;
   gfc_gobble_whitespace ();
 
@@ -6829,6 +6833,9 @@ gfc_match_type_is (void)
   gfc_case *c = NULL;
   match m;
 
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] reached %s() (parsing includes a '(')...\n", __FILE__, __LINE__, __func__);
+#endif
   if (gfc_current_state () != COMP_SELECT_TYPE)
     {
       gfc_error ("Unexpected TYPE IS statement at %C");
