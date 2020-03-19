@@ -456,6 +456,9 @@ match_data_constant (gfc_expr **result)
   else if (dt_sym && gfc_fl_struct (dt_sym->attr.flavor))
     return gfc_match_structure_constructor (dt_sym, result);
 
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] Reached for 'check [...] initialization array expression\n", __FILE__, __LINE__);
+#endif
   /* Check to see if the value is an initialization array expression.  */
   if (sym->value->expr_type == EXPR_ARRAY)
     {
@@ -467,6 +470,9 @@ match_data_constant (gfc_expr **result)
 
       if (m == MATCH_YES)
 	{
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] MATCH_YES here -> dealing with expr_type EXPR_ARRAY ('an initialization array expression'...\n", __FILE__, __LINE__);
+#endif
 	  if (!gfc_simplify_expr (*result, 0))
 	    m = MATCH_ERROR;
 
