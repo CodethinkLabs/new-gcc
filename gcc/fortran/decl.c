@@ -1972,6 +1972,9 @@ add_init_expr_to_sym (const char *name, gfc_expr **initp, locus *var_locus)
 	      gfc_charlen_t clen;
 	      /* If there are multiple CHARACTER variables declared on the
 		 same line, we don't want them to share the same length.  */
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() 'don't want multiple CHARACTER variables on the same line to share the same length'...\n", __FILE__, __LINE__, __func__);
+#endif
 	      sym->ts.u.cl = gfc_new_charlen (gfc_current_ns, NULL);
 
 	      if (sym->attr.flavor == FL_PARAMETER)
