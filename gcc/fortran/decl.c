@@ -1708,6 +1708,9 @@ build_sym (const char *name, gfc_charlen *cl, bool cl_deferred,
     }
 
   /* Add dimension attribute if present.  */
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() calls gfc_set_array_spec(); current '*as' (as %p, *as %p) takes NULL\n", __FILE__, __LINE__, __func__, (void *)as, (void *)*as);
+#endif
   if (!gfc_set_array_spec (sym, *as, var_locus))
     return false;
   *as = NULL;
@@ -5051,6 +5054,9 @@ match_attr_spec (void)
   const char *attr;
   match m;
   bool t;
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() (possible 'attribute expression including array specs')...\n", __func__);
+#endif
 
   gfc_clear_attr (&current_attr);
   start = gfc_current_locus;
@@ -5722,6 +5728,9 @@ match_attr_spec (void)
     current_attr.save = SAVE_IMPLICIT;
 
   colon_seen = 1;
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - MATCH_YES\n", __func__);
+#endif
   return MATCH_YES;
 
 cleanup:
