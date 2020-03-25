@@ -1779,7 +1779,13 @@ gfc_set_constant_character_len (gfc_charlen_t len, gfc_expr *expr,
       return;
     }
 
+#if 1	/* WmT */
+;fprintf(stderr, "[WmT] %s(): expr at %p has ts-type BT_CHARACTER and expr_type EXPR_CONSTANT (function's check_len %ld)\n...", __func__, (void *)expr, check_len);
+#endif
   slen = expr->value.character.length;
+#if 1	/* WmT */
+;fprintf(stderr, "[%s:%d] mismatch -> memcpy()? compare: (parm)len %ld vs (expr-parm)slen %ld\n", __FILE__, __LINE__, len, slen);
+#endif
   if (len != slen)
     {
       s = gfc_get_wide_string (len + 1);
