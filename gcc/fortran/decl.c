@@ -6168,10 +6168,16 @@ gfc_match_data_decl (void)
   m = gfc_match_decl_type_spec (&current_ts, 0);
   if (m != MATCH_YES)
     return m;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() got MATCH_YES from gfc_match_decl_type_spec()...\n", __func__);
+#endif
 
   if ((current_ts.type == BT_DERIVED || current_ts.type == BT_CLASS)
 	&& !gfc_comp_struct (gfc_current_state ()))
     {
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() handling BT_DERIVED or BT_CLASS...\n", __FILE__, __LINE__, __func__);
+#endif
       sym = gfc_use_derived (current_ts.u.derived);
 
       if (sym == NULL)
@@ -6205,6 +6211,9 @@ gfc_match_data_decl (void)
       if (current_attr.allocatable && gfc_current_state () == COMP_DERIVED)
 	goto ok;
 
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() about to gfc_find_symbol() '%s' (handling BT_{DERIVED|CLASS})\n", __func__, current_ts.u.derived->name);
+#endif
       gfc_find_symbol (current_ts.u.derived->name,
 		       current_ts.u.derived->ns, 1, &sym);
 
