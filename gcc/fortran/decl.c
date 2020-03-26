@@ -3392,6 +3392,9 @@ gfc_match_char_spec (gfc_typespec *ts)
       if (m == MATCH_YES)
 	old_char_selector = 1;
       seen_length = 1;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() 'old-style specification' found; (len expr %p; set seen_length 1/TRUE)...\n", __func__, (void *)len);
+#endif
       goto done;
     }
 
@@ -3399,6 +3402,9 @@ gfc_match_char_spec (gfc_typespec *ts)
   if (m != MATCH_YES)
     {
       m = MATCH_YES;	/* Character without length is a single char.  */
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() done; 'character without length is a single char'...\n", __func__);
+#endif
       goto done;
     }
 
@@ -3434,6 +3440,9 @@ gfc_match_char_spec (gfc_typespec *ts)
       if (m == MATCH_ERROR)
 	goto done;
       seen_length = 1;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() matched - marked ' len =' (len expr at %p; set seen_length 1/TRUE)...\n", __func__, (void *)len);
+#endif
 
       if (gfc_match_char (')') == MATCH_YES)
 	goto done;
@@ -3454,6 +3463,9 @@ gfc_match_char_spec (gfc_typespec *ts)
   if (m == MATCH_ERROR)
     goto done;
   seen_length = 1;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() matched - with (<len-param>) or similar (len expr at %p; set seen_length 1/TRUE)...\n", __func__, (void *)len);
+#endif
 
   m = gfc_match_char (')');
   if (m == MATCH_YES)
@@ -3473,6 +3485,9 @@ gfc_match_char_spec (gfc_typespec *ts)
 rparen:
   /* Require a right-paren at this point.  */
   m = gfc_match_char (')');
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() reached 'rparen:' - have match %s\n", __func__, (m == MATCH_YES)?"y":"n");
+#endif
   if (m == MATCH_YES)
     goto done;
 
@@ -3514,6 +3529,9 @@ done:
 	{
 	  gfc_namespace *old_ns;
 	  gfc_expr *e;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() handle 'len reducible to a constant' (len expr %p)", __func__, (void *)len);
+#endif
 
 	  old_ns = gfc_current_ns;
 	  gfc_current_ns = gfc_get_namespace (NULL, 0);
@@ -3533,6 +3551,9 @@ done:
 	  gfc_current_ns = old_ns;
 	}
 
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() 'final massaging' step sets cl->length (target ts %p; len expr at %p)...\n", __func__, (void *)ts, (void *)len);
+#endif
       cl->length = len;
     }
 
