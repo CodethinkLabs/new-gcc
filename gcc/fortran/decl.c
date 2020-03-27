@@ -1633,6 +1633,9 @@ build_sym (const char *name, gfc_charlen *cl, bool cl_deferred,
   gfc_symbol *sym;
   int upper;
   gfc_symtree *st;
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() (add name '%s' to symbol table) ***\n", __func__, name);
+#endif
 
   /* Symbols in a submodule are host associated from the parent module or
      submodules. Therefore, they can be overridden by declarations in the
@@ -1683,6 +1686,9 @@ build_sym (const char *name, gfc_charlen *cl, bool cl_deferred,
     }
 
   /* Start updating the symbol table.  Add basic type attribute if present.  */
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() 'start updating the symbol table'...\n", __FILE__, __LINE__, __func__);
+#endif
   if (current_ts.type != BT_UNKNOWN
       && (sym->attr.implicit_type == 0
 	  || !gfc_compare_types (&sym->ts, &current_ts))
@@ -1754,6 +1760,9 @@ build_sym (const char *name, gfc_charlen *cl, bool cl_deferred,
   if (sym->ts.type == BT_CLASS)
     return gfc_build_class_symbol (&sym->ts, &sym->attr, &sym->as);
 
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - success case (true) ***\n", __func__);
+#endif
   return true;
 }
 
