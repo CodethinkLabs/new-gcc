@@ -1327,6 +1327,10 @@ gfc_match_program (void)
 
   gfc_new_block = sym;
 
+#if 1  /* WmT */
+//;fprintf(stderr, "*** EXIT %s() - MATCH_YES (sym->name %s) ***\n", __func__, sym->name);
+;fprintf(stderr, "*** Reached %s() exit; sym->name '%s' now has flavor FL_PROGRAM ***\n", __func__, sym->name);
+#endif
   return MATCH_YES;
 }
 
