@@ -6065,6 +6065,9 @@ fixup_charlen (gfc_expr *e)
       /* FALLTHRU */
 
     case EXPR_ARRAY:
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] Reached %s(), handling EXPR_ARRAY? %s\n", __FILE__, __LINE__, __func__, (e->expr_type == EXPR_ARRAY)?"y":"n");
+#endif
       if (e->expr_type == EXPR_ARRAY)
 	gfc_resolve_character_array_constructor (e);
       /* FALLTHRU */
@@ -6075,6 +6078,9 @@ fixup_charlen (gfc_expr *e)
       /* FALLTHRU */
 
     default:
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() fallthrough - expr %p gets gfc_new_charlen() for ts.u.cl? %s\n", __FILE__, __LINE__, __func__, (void *)e, (e->ts.u.cl)?"n":"y");
+#endif
       if (!e->ts.u.cl)
 	e->ts.u.cl = gfc_new_charlen (gfc_current_ns, NULL);
 
