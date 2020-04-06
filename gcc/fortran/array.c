@@ -2314,9 +2314,6 @@ gfc_resolve_array_constructor (gfc_expr *expr)
      the call to this function, so we don't need to call it here; if it was
      called twice, an error message there would be duplicated.  */
 
-#if 1  /* WmT */
-;fprintf(stderr, "*** EXIT %s() - success T=%s ***\n", __func__, t?"y":"n");
-#endif
   return t;
 }
 
