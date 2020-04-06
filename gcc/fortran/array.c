@@ -2304,6 +2304,9 @@ gfc_resolve_array_constructor (gfc_expr *expr)
   bool t;
 
   t = resolve_array_list (expr->value.constructor);
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() did resolve_array_list(), will gfc_check_constructor_type()? %s\n", __FILE__, __LINE__, __func__, t?"y":"n");
+#endif
   if (t)
     t = gfc_check_constructor_type (expr);
 
