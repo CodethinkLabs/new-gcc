@@ -338,6 +338,9 @@ gfc_resolve_formal_arglist (gfc_symbol *proc)
 
       saved_specification_expr = specification_expr;
       specification_expr = true;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE - gfc_resolve_array_spec() from %s()...\n", __FILE__, __LINE__, __func__);
+#endif
       gfc_resolve_array_spec (as, 0);
       specification_expr = saved_specification_expr;
 
@@ -14647,6 +14650,9 @@ resolve_component (gfc_component *c, gfc_symbol *sym)
                                  || c->attr.allocatable)))
     return false;
 
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE - gfc_resolve_array_spec() from %s() OK...\n", __FILE__, __LINE__, __func__);
+#endif
   if (c->initializer && !sym->attr.vtype
       && !c->attr.pdt_kind && !c->attr.pdt_len
       && !gfc_check_assign_symbol (sym, c, c->initializer))
@@ -15327,6 +15333,9 @@ resolve_symbol (gfc_symbol *sym)
     {
       bool saved_specification_expr = specification_expr;
       specification_expr = true;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE - gfc_resolve_array_spec() from %s()...\n", __FILE__, __LINE__, __func__);
+#endif
       gfc_resolve_array_spec (sym->result->as, false);
       specification_expr = saved_specification_expr;
     }
@@ -15897,6 +15906,9 @@ resolve_symbol (gfc_symbol *sym)
 
   saved_specification_expr = specification_expr;
   specification_expr = true;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE - gfc_resolve_array_spec() from %s()...\n", __FILE__, __LINE__, __func__);
+#endif
   gfc_resolve_array_spec (sym->as, check_constant);
   specification_expr = saved_specification_expr;
 
