@@ -4072,6 +4072,9 @@ simplify_bound_dim (gfc_expr *array, gfc_expr *kind, int d, int upper,
   gcc_assert (array->expr_type == EXPR_VARIABLE);
   gcc_assert (as);
 
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE - gfc_resolve_array_spec() from %s()...\n", __FILE__, __LINE__, __func__);
+#endif
   if (!gfc_resolve_array_spec (as, 0))
     return NULL;
 
