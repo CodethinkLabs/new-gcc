@@ -14386,6 +14386,9 @@ resolve_component (gfc_component *c, gfc_symbol *sym)
           /* Copy char length.  */
           if (ifc->ts.type == BT_CHARACTER && ifc->ts.u.cl)
             {
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() found a char_length to copy (set c->ts.u.cl, from ifc->ts.u.cl %p)...\n", __FILE__, __LINE__, __func__, (void *)ifc->ts.u.cl);
+#endif
               gfc_charlen *cl = gfc_new_charlen (sym->ns, ifc->ts.u.cl);
               if (cl->length && !cl->resolved
                   && !gfc_resolve_expr (cl->length))
@@ -14540,6 +14543,9 @@ resolve_component (gfc_component *c, gfc_symbol *sym)
   if (c->ts.type == BT_CHARACTER && !c->attr.proc_pointer
         && !c->ts.deferred)
     {
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() handling a cs->ts.type == BT_CHARACTER case...\n", __func__);
+#endif
      if (c->ts.u.cl->length == NULL
          || (!resolve_charlen(c->ts.u.cl))
          || !gfc_is_constant_expr (c->ts.u.cl->length))
