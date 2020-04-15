@@ -4912,22 +4912,38 @@ component_initializer (gfc_component *c, bool generate)
     {
       init = gfc_get_null_expr (&c->loc);
       init->ts = c->ts;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() returning EXPR_NULL because component is allocatable...\n", __func__);
+#endif
       return init;
     }
 
   /* See if we can find the initializer immediately.  */
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() just return c->initializer? %s (component %p, initializer %p)...\n", __func__ , (c->initializer || !generate)?"y":"n", (void *)c, (void *)c->initializer);
+#endif
   if (c->initializer || !generate)
     return c->initializer;
 
   /* Recursively handle derived type components.  */
   else if (c->ts.type == BT_DERIVED || c->ts.type == BT_CLASS)
+#if 1  /* WmT */
+{
+;fprintf(stderr, "[%s:%d] HERE - returning gfc_generate_initializer() result...\n", __FILE__, __LINE__);
+#endif
     init = gfc_generate_initializer (&c->ts, true);
+#if 1  /* WmT */
+}
+#endif
 
   else if (c->ts.type == BT_UNION && c->ts.u.derived->components)
     {
       gfc_component *map = NULL;
       gfc_constructor *ctor;
       gfc_expr *user_init;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() handling a BT_UNION case...\n", __func__);
+#endif
 
       /* If we don't have a user initializer and we aren't generating one, this
          union has no initializer.  */
@@ -4964,6 +4980,9 @@ component_initializer (gfc_component *c, bool generate)
   else
     {
       /* We MUST give an initializer, so force generation.  */
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() to gfc_apply_init() gfc_build_init_expr() result...\n", __func__);
+#endif
       init = gfc_build_init_expr (&c->ts, &c->loc, true);
       gfc_apply_init (&c->ts, &c->attr, init);
     }
