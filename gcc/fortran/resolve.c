@@ -15429,6 +15429,9 @@ resolve_symbol (gfc_symbol *sym)
 
   if (sym->attr.value && sym->ts.type == BT_CHARACTER)
     {
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE -%s()- sym->attr has value, and sym->ts type BT_CHARACTER...\n", __FILE__, __LINE__, __func__);
+#endif
       gfc_charlen *cl = sym->ts.u.cl;
       if (!cl || !cl->length || cl->length->expr_type != EXPR_CONSTANT)
 	{
