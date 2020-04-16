@@ -436,9 +436,15 @@ gfc_match_eos (void)
 	  /* Fall through.  */
 
 	case '\n':
+#if 0  /* WmT */
+;fprintf(stderr, "[WmT] %s() - newline -> MATCH_YES\n", __func__);
+#endif
 	  return MATCH_YES;
 
 	case ';':
+#if 0  /* WmT */
+;fprintf(stderr, "[WmT] %s() - ';' -> MATCH_YES\n", __func__);
+#endif
 	  flag = 1;
 	  continue;
 	}
