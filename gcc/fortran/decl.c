@@ -10441,6 +10441,9 @@ gfc_match_derived_decl (void)
       if (is_type_attr_spec == MATCH_YES)
 	seen_attr = true;
     } while (is_type_attr_spec == MATCH_YES);
+#if 0  /* WmT */
+;fprintf(stderr, "[WmT] done gfc_get_type_attr_spec() loop - seen_attr %s\n", seen_attr?"y":"n");
+#endif
 
   /* Deal with derived type extensions.  The extension attribute has
      been added to 'attr' but now the parent type must be found and
