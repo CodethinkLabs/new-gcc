@@ -5065,6 +5065,10 @@ gfc_generate_initializer (gfc_typespec *ts, bool generate)
 
       /* Fetch or generate an initializer for the component.  */
       tmp = component_initializer (comp, generate);
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() got initializer %p for component at %p...\n", __func__, (void *)tmp, (void *)comp);
+#endif
+
       if (tmp)
 	{
 	  /* Save the component ref for STRUCTUREs and UNIONs.  */
