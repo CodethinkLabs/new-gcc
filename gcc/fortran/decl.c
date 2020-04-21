@@ -2026,6 +2026,9 @@ add_init_expr_to_sym (const char *name, gfc_expr **initp, locus *var_locus)
 
 	      int k = gfc_validate_kind (BT_INTEGER, gfc_charlen_int_kind,
 					 false);
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE? 'update initializer character length according [to] symbol'...\n", __FILE__, __LINE__);
+#endif
 	      /* resolve_charlen will complain later on if the length
 		 is too large.  Just skeep the initialization in that case.  */
 	      if (mpz_cmp (sym->ts.u.cl->length->value.integer,
