@@ -3131,6 +3131,9 @@ gfc_match_init_expr (gfc_expr **result)
     }
 
   t = gfc_reduce_init_expr (expr);
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s(): gfc_reduce_init_expr() -> exit with MATCH_YES? %s (expr %p, gfc_init_expr_flag %s)...\n", __func__, t?"y":"n", (void *)expr, gfc_init_expr_flag?"y":"n");
+#endif
   if (!t)
     {
       gfc_free_expr (expr);
