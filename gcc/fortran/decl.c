@@ -2184,6 +2184,9 @@ build_struct (const char *name, gfc_charlen *cl, gfc_expr **init,
 {
   gfc_state_data *s;
   gfc_component *c;
+#if 0  /* WmT */
+;fprintf(stderr, "[%s:%d] at %s() - 'called by variable_decl to add name '%s' to the structure being built'...\n", __FILE__, __LINE__, __func__, name);
+#endif
 
   /* F03:C438/C439. If the current symbol is of the same derived type that we're
      constructing, it must have the pointer attribute.  */
@@ -2254,8 +2257,14 @@ build_struct (const char *name, gfc_charlen *cl, gfc_expr **init,
 
   if (!gfc_add_component (gfc_current_block(), name, &c))
     return false;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() added component '%s' OK - got %p\n", __func__, name, (void *)c);
+#endif
 
   c->ts = current_ts;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] c->ts type/cl: ...assign 'cl' %p if BT_CHARACTER? %s)...\n", __FILE__, __LINE__, (void *)cl, (c->ts.type == BT_CHARACTER)?"y":"n");
+#endif
   if (c->ts.type == BT_CHARACTER)
     c->ts.u.cl = cl;
 
@@ -2279,6 +2288,9 @@ build_struct (const char *name, gfc_charlen *cl, gfc_expr **init,
     }
   *as = NULL;
 
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() -> doing gfc_apply_init() for c->{ts|attr|initializer} (component %p, initializer %p)...\n", __FILE__, __LINE__, __func__, (void *)c, (void *)c->initializer);
+#endif
   gfc_apply_init (&c->ts, &c->attr, c->initializer);
 
   /* Check array components.  */
@@ -2558,6 +2570,9 @@ variable_decl (int elem)
   if (m == MATCH_ERROR)
     goto cleanup;
 
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] copy/merge current_as? %s() calls %s()\n", __func__, (m == MATCH_NO)?"gfc_copy_array_spec":"merge_array_spec");
+#endif
   if (m == MATCH_NO)
     as = gfc_copy_array_spec (current_as);
   else if (current_as
