@@ -4987,6 +4987,9 @@ component_initializer (gfc_component *c, bool generate)
       gfc_apply_init (&c->ts, &c->attr, init);
     }
 
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() HERE - return 'init' %p (leaving initializer of component %p at %p?)...\n", __func__, (void *)init, (void *)c, (void *)c->initializer);
+#endif
   return init;
 }
 
