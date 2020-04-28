@@ -5517,6 +5517,9 @@ resolve_variable (gfc_expr *e)
 {
   gfc_symbol *sym;
   bool t;
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() ***\n", __func__);
+#endif
 
   t = true;
 
@@ -5905,6 +5908,9 @@ resolve_procedure:
       gfc_pop_suppress_errors ();
     }
 
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - t=%s ***\n", __func__, t?"y":"n");
+#endif
   return t;
 }
 
