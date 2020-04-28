@@ -4730,14 +4730,26 @@ gfc_apply_init (gfc_typespec *ts, symbol_attribute *attr, gfc_expr *init)
               for ( ; ctor; ctor = gfc_constructor_next (ctor))
                 if (ctor->expr->expr_type == EXPR_CONSTANT)
                 {
+#if 1	/* WmT */
+;fprintf(stderr, "[WmT] %s(): ctor %p expr %p EXPR_CONSTANT -> set with len=%ld, has_ts %s first_len=%ld\n", __func__, (void *)ctor, (void *)ctor->expr, len, has_ts?"y -> won't check":"n -> will use", first_len);
+#endif
                   gfc_set_constant_character_len (len, ctor->expr,
                                                   has_ts ? -1 : first_len);
+#if 1	/* WmT */
+	/* this code block fixes an ICE where previously
+	 * ctor->expr->ts.u.cl->length was assigned to without testing
+	 */
+;fprintf(stderr, "[WmT] %s() HERE - handle ts.u.cl for ctor %p expr %p - method %s...\n", __func__, (void *)ctor, (void *)ctor->expr, (!ctor->expr->ts.u.cl)?"gfc_new_charlen()":"gfc_copy_expr()");
+#endif
 		  if (!ctor->expr->ts.u.cl)
 		    ctor->expr->ts.u.cl
 		      = gfc_new_charlen (gfc_current_ns, ts->u.cl);
 		  else
                     ctor->expr->ts.u.cl->length
 		      = gfc_copy_expr (ts->u.cl->length);
+#if 1	/* WmT */
+;fprintf(stderr, "[WmT] ...ts.u.cl %p vs %p, cl->length %p vs %p, cl->length_from_typespec %s vs %s\n", (void *)ts->u.cl, (void *)ctor->expr->ts.u.cl, (void *)ts->u.cl->length, (void *)ctor->expr->ts.u.cl->length, ts->u.cl->length_from_typespec?"T":"F", ctor->expr->ts.u.cl->length_from_typespec?"T":"F");
+#endif
                 }
             }
         }
