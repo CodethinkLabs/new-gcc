@@ -15205,6 +15205,9 @@ resolve_symbol (gfc_symbol *sym)
   symbol_attribute class_attr;
   gfc_array_spec *as;
   bool saved_specification_expr;
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() - symbol %p, name %s, already resolved %s ***\n", __func__, (void *)sym, sym->name, sym->resolved?"y":"n");
+#endif
 
   if (sym->resolved)
     return;
@@ -16028,6 +16031,9 @@ resolve_symbol (gfc_symbol *sym)
 
   if (sym->param_list)
     resolve_pdt (sym);
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() ***\n", __func__);
+#endif
 }
 
 
