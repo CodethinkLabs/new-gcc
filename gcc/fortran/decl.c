@@ -2166,6 +2166,9 @@ add_init_expr_to_sym (const char *name, gfc_expr **initp, locus *var_locus)
 	}
 
       sym->value = init;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s(): symbol %p adopted value (initializer) %p - pointer will become NULL in caller...\n", __func__, (void *)sym, (void *)init);
+#endif
       if (sym->attr.save == SAVE_NONE)
 	sym->attr.save = SAVE_IMPLICIT;
       *initp = NULL;
@@ -2276,6 +2279,9 @@ build_struct (const char *name, gfc_charlen *cl, gfc_expr **init,
   c->attr = current_attr;
 
   c->initializer = *init;
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s(): component %p adopted initializer %p - pointer will become NULL in caller...\n", __func__, (void *)c, (void *)*init);
+#endif
   *init = NULL;
 
   c->as = *as;
@@ -2717,6 +2723,9 @@ variable_decl (int elem)
       switch (match_char_length (&char_len, &cl_deferred, false))
 	{
 	case MATCH_YES:
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE? match_char_length() MATCH_YES - cl <- gfc_new_charlen(), cl->length <- %p...\n", __FILE__, __LINE__, (void *)cl->length);
+#endif
 	  cl = gfc_new_charlen (gfc_current_ns, NULL);
 
 	  cl->length = char_len;
@@ -2725,6 +2734,9 @@ variable_decl (int elem)
 	/* Non-constant lengths need to be copied after the first
 	   element.  Also copy assumed lengths.  */
 	case MATCH_NO:
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE? match_char_length() MATCH_NO - will set cl_deferred as per current_ts [%s]...\n", __FILE__, __LINE__, current_ts.deferred?"y":"n");
+#endif
 	  if (elem > 1
 	      && (current_ts.u.cl->length == NULL
 		  || current_ts.u.cl->length->expr_type != EXPR_CONSTANT))
@@ -2843,6 +2855,10 @@ variable_decl (int elem)
       goto cleanup;
     }
 
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] HERE - '[we] matched the declaration' - build_sym() worked for name '%s', if called...\n", __FILE__, __LINE__, name);
+#endif
+
   if (!check_function_name (name))
     {
       m = MATCH_ERROR;
@@ -2885,6 +2901,9 @@ variable_decl (int elem)
                        name);
           if (m != MATCH_YES)
             goto cleanup;
+#if 1  /* WmT */
+;fprintf(stderr, "[%s:%d] %s() HERE? - 'read [structure component] initializer as a special expression' - OK, initializer %p...\n", __FILE__, __LINE__, __func__, (void *)initializer);
+#endif
         }
 
       /* Otherwise we treat the old style initialization just like a
@@ -2936,6 +2955,9 @@ variable_decl (int elem)
 	      gfc_error ("Expected an initialization expression at %C");
 	      m = MATCH_ERROR;
 	    }
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() matched '=', gfc_match_init_expr() got initializer %p\n", __func__, (void *)initializer);
+#endif
 
 	  if (current_attr.flavor != FL_PARAMETER && gfc_pure (NULL)
 	      && !gfc_comp_struct (gfc_state_stack->state))
@@ -3034,9 +3056,19 @@ variable_decl (int elem)
      NULL here, because we sometimes also need to check if a
      declaration *must* have an initialization expression.  */
   if (!gfc_comp_struct (gfc_current_state ()))
+#if 1  /* WmT */
+{
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() About to 'Add the initializer' (%p) if case -> add_init_expr_to_sym() (sym name '%s')...\n", __func__, (void *)initializer, name);
+#endif
     t = add_init_expr_to_sym (name, &initializer, &var_locus);
+}
+#endif
   else
     {
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s() 'Add the initializer' (%p) else case -> build_struct() (component name '%s', for current_ts %p)...\n", __func__, (void *)initializer, name, (void *)&current_ts);
+#endif
       if (current_ts.type == BT_DERIVED
 	  && !current_attr.pointer && !initializer)
 	initializer = gfc_default_initializer (&current_ts);
@@ -3053,6 +3085,9 @@ variable_decl (int elem)
 
 cleanup:
   /* Free stuff up and return.  */
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] %s(): HERE - pre-exit cleanup (gfc_seen_div0 %s, initializer %p, as %p; will return m=%s)...\n", __func__, gfc_seen_div0?"true":"false", (void *)initializer, (void *)as, (m == MATCH_YES)?"MATCH_YES":"MATCH_ERROR");
+#endif
   gfc_seen_div0 = false;
   gfc_free_expr (initializer);
   gfc_free_array_spec (as);
