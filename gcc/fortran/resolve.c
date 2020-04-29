@@ -14296,6 +14296,9 @@ resolve_component (gfc_component *c, gfc_symbol *sym)
 {
   gfc_symbol *super_type;
   symbol_attribute *attr;
+#if 1  /* WmT */
+;fprintf(stderr, "*** ENTER %s() - symbol with name '%s', component at %p ***\n", __func__, sym->name, (void *)c);
+#endif
 
   if (c->attr.artificial)
     return true;
@@ -14689,6 +14692,9 @@ resolve_component (gfc_component *c, gfc_symbol *sym)
       && !gfc_check_assign_symbol (sym, c, c->initializer))
     return false;
 
+#if 1  /* WmT */
+;fprintf(stderr, "*** EXIT %s() - 'true' case***\n", __func__);
+#endif
   return true;
 }
 
