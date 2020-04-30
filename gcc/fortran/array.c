@@ -2142,11 +2142,17 @@ gfc_resolve_character_array_constructor (gfc_expr *expr)
 	  {
 	    /* Ensure that if there is a char_len around that it is
 	       used; otherwise the middle-end confuses them!  */
+#if 1	/* WmT */
+;fprintf(stderr, "[WmT] %s() HERE - expr %p has NULL u.cl; *assign* p->expr's (%p)...\n", __func__, (void *)expr, (void *)p->expr->ts.u.cl);
+#endif
 	    expr->ts.u.cl = p->expr->ts.u.cl;
 	    goto got_charlen;
 	  }
 
       expr->ts.u.cl = gfc_new_charlen (gfc_current_ns, NULL);
+#if 0	/* WmT */
+;fprintf(stderr, "[WmT] %s() fallthrough: using gfc_new_charlen() result %p...\n", __func__, (void *)expr->ts.u.cl);
+#endif
     }
 
 got_charlen:
@@ -2169,6 +2175,10 @@ got_charlen:
 
   if (expr->ts.u.cl->length == NULL)
     {
+#if 0  /* WmT */
+;fprintf(stderr, "[WmT] %s() examine expr->ts-u.cl->length - NULL (expr=%p if case)...\n", __func__, (void *)expr);
+//;gfc_warning_now(0, "[WmT] if case: expr->ts-u.cl->length NULL at L='%L'", &expr->where);
+#endif
       /* Check that all constant string elements have the same length until
 	 we reach the end or find a variable-length one.  */
 
@@ -2228,6 +2238,9 @@ got_charlen:
 	 gfc_extract_int does check for BT_INTEGER and EXPR_CONSTANT and sets
 	 max_length only if they pass.  */
       gfc_extract_hwi (expr->ts.u.cl->length, &found_length);
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] examine expr->ts.u.cl->length - non-NULL (expr=%p else case) -> gfc_extract_hwi has set found_length [from expr->ts.u.cl->length %p] to %ld...\n", (void *)expr, (void *)expr->ts.u.cl->length, found_length);
+#endif
 
       /* Now pad/truncate the elements accordingly to the specified character
 	 length.  This is ok inside this conditional, as in the case above
@@ -2238,6 +2251,9 @@ got_charlen:
 	     p; p = gfc_constructor_next (p))
 	  if (p->expr->expr_type == EXPR_CONSTANT)
 	    {
+#if 0  /* WmT */
+;fprintf(stderr, "[WmT] iterating; p->expr %p type EXPR_CONSTANT has u.cl %s...\n", (void *)p->expr, (p->expr->ts.u.cl)?"y":"n");
+#endif
 	      gfc_expr *cl = NULL;
 	      HOST_WIDE_INT current_length = -1;
 	      bool has_ts;
@@ -2246,6 +2262,9 @@ got_charlen:
 	      {
 		cl = p->expr->ts.u.cl->length;
 		gfc_extract_hwi (cl, &current_length);
+#if 1  /* WmT */
+;fprintf(stderr, "[WmT] cl with length; gfc_extract_hwi() -> current_length %ld (from p->expr %p)\n", current_length, (void *)p->expr);
+#endif
 	      }
 
 	      /* If gfc_extract_int above set current_length, we implicitly
@@ -2253,6 +2272,9 @@ got_charlen:
 
 	      has_ts = expr->ts.u.cl->length_from_typespec;
 
+#if 0	/* WmT */
+;fprintf(stderr, "[WmT] maybe gfc_set_constant_character_len()? (compare found_length %ld)? %s\n", found_length, (! cl || (current_length != -1 && current_length != found_length))?"y":"n");
+#endif
 	      if (! cl
 		  || (current_length != -1 && current_length != found_length))
 		gfc_set_constant_character_len (found_length, p->expr,
